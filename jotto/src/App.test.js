@@ -4,26 +4,13 @@ import { Provider } from 'react-redux';
 import { shallow } from 'enzyme';
 
 import { storeFactory, findByTestAttr } from '../test/testUtils';
-import App from './App';
-
-const store = storeFactory({});
+import App, { UnconnectedApp } from './App';
 
 const setup = (initialState = {}) => {
   const store = storeFactory(initialState);
   const wrapper = shallow(<App store={store} />).dive();
   return wrapper;
 };
-
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    div
-  );
-  ReactDOM.unmountComponentAtNode(div);
-});
 
 describe('redux props on app', () => {
   test('has the success piece of state as props', () => {
@@ -49,4 +36,17 @@ describe('redux props on app', () => {
     const getSecretWordProp = wrapper.instance().props.getSecretWord;
     expect(getSecretWordProp).toBeInstanceOf(Function);
   });
+});
+
+test('`getSecretWord` runs on app mount', () => {
+  const getSecretWordMock = jest.fn();
+  const props = {
+    getSecretWord: getSecretWordMock,
+    success: false,
+    guessedWords: []
+  };
+  const wrapper = shallow(<UnconnectedApp {...props} />);
+  wrapper.instance().componentDidMount();
+  const getSecretWordCallCount = getSecretWordMock.mock.calls.length;
+  expect(getSecretWordCallCount).toBe(1);
 });

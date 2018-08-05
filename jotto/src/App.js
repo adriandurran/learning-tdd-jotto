@@ -9,9 +9,9 @@ import GuessedWords from './GuessedWords';
 import Congrats from './Congrats';
 import Input from './Input';
 
-class App extends Component {
+export class UnconnectedApp extends Component {
   componentDidMount() {
-    // this.props.getSecretWord();
+    this.props.getSecretWord();
   }
 
   render() {
@@ -36,9 +36,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-App = connect(
+export default connect(
   mapStateToProps,
   { getSecretWord }
-)(App);
-
-export default App;
+)(UnconnectedApp);
