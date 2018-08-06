@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getLetterMatchCount } from '../helpers';
 
 export const actionTypes = {
   CORRECT_GUESS: 'correct_guess',
@@ -7,8 +8,6 @@ export const actionTypes = {
 };
 
 // https://github.com/flyrightsister/udemy-react-testing-projects
-
-import { getLetterMatchCount } from '../helpers';
 
 export const guessWord = (guessedWord) => {
   return (dispatch, getState) => {
@@ -27,6 +26,6 @@ export const guessWord = (guessedWord) => {
 };
 
 export const getSecretWord = () => async (dispatch) => {
-  const res = await axios.get('http://localhost:3030');
-  dispatch({ type: actionTypes.SET_SECRET_WORD, payload: res.data });
+  const resWord = 'party';
+  dispatch({ type: actionTypes.SET_SECRET_WORD, payload: resWord });
 };
